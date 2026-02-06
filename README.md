@@ -19,34 +19,12 @@ docker-compose up
 
 API runs on `http://localhost:3000`
 
-## Usage
-
-Create account:
-```bash
-curl -X POST http://localhost:3000/users \
-  -H "Content-Type: application/json" \
-  -d '{"user":{"name":"Test","email":"test@example.com","password":"password123"}}'
-```
-
-Shorten URL:
-```bash
-curl -X POST http://localhost:3000/api/v1/links \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -d '{"url":"https://github.com"}'
-```
-
-Visit short link:
-```bash
-curl http://localhost:3000/abc123
-```
-
 ## Architecture
 
 **Short code generation:**
 - Sequential Base62 encoding from Redis counter
-- Format: 6 chars (e.g., `q0U`, `4c92`)
-- Capacity: 62^6 = 56B URLs
+- Format: 1-6 chars, grows with usage (e.g., `q0U` at 100k, `4c92` at 1M)
+- Max capacity: 62^6 = 56B URLs
 - Fallback: 8 random chars if Redis fails
 
 **Why this approach:**
@@ -73,5 +51,3 @@ docker-compose run --rm app bundle exec rspec
 docker-compose run --rm app bundle exec rubocop
 docker-compose run --rm app bundle exec brakeman
 ```
-
-Coverage: 92%

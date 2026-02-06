@@ -1,3 +1,7 @@
+User.destroy_all
+Link.destroy_all
+Visit.destroy_all
+
 user1 = User.create!(
   name: 'Demo User',
   email: 'demo@example.com',
@@ -12,12 +16,12 @@ user2 = User.create!(
 
 links = [
   { url: 'https://github.com', user: user1 },
-  { url: 'https://stackoverflow.com', user: user1 },
-  { url: 'https://reddit.com/r/programming', user: user1 },
-  { url: 'https://news.ycombinator.com', user: user1 },
-  { url: 'https://ruby-doc.org', user: user2 },
+  { url: 'https://google.com', user: user1 },
+  { url: 'https://linkedin.com/in/johndoe', user: user1 },
+  { url: 'https://infobae.com', user: user1 },
+  { url: 'https://tycsports.com', user: user2 },
   { url: 'https://rails.org', user: user2 },
-  { url: 'https://api.rubyonrails.org', user: user2 }
+  { url: 'https://youtube.com/watch?v=dQw4w9WgXcQ', user: user2 }
 ]
 
 links.each do |link_data|
@@ -27,8 +31,8 @@ links.each do |link_data|
   rand(5..15).times do
     Visit.create!(
       link: link,
-      ip_address: "192.168.1.#{rand(1..254)}",
-      user_agent: ['Mozilla/5.0', 'Chrome/91.0', 'Safari/14.0'].sample
+      ip_address: Faker::Internet.ip_v4_address,
+      user_agent: Faker::Internet.user_agent
     )
     link.increment!(:click_count) # rubocop:disable Rails/SkipsModelValidations
   end

@@ -13,11 +13,10 @@ RSpec.describe User, type: :model do
     end
 
     it 'requires a unique email' do
-      create(:user, email: 'test@example.com')
-      user = build(:user, email: 'test@example.com')
-      user.valid?
-      expect(user).not_to be_valid
-      expect(user.errors[:email]).to include('has already been taken')
+      user1 = create(:user)
+      user2 = build(:user, email: user1.email)
+      expect(user2).not_to be_valid
+      expect(user2.errors[:email]).to include('has already been taken')
     end
   end
 end
