@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_06_014908) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_06_015906) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "links", force: :cascade do |t|
+    t.integer "click_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.string "original_url", null: false
+    t.string "short_code", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["short_code"], name: "index_links_on_short_code", unique: true
+    t.index ["user_id"], name: "index_links_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -26,4 +37,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_06_014908) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "links", "users", on_delete: :cascade
 end
