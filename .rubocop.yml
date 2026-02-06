@@ -20,3 +20,6 @@ Style/GlobalStdStream:
 Metrics/MethodLength:
   Exclude:
     - 'db/migrate/*'
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
