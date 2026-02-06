@@ -17,6 +17,8 @@ Rails/Exit:
   Enabled: false
 Style/GlobalStdStream:
   Enabled: false
+Rails/I18nLocaleTexts:
+  Enabled: false
 Metrics/MethodLength:
   Exclude:
     - 'db/migrate/*'
