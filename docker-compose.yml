@@ -10,10 +10,23 @@ services:
   app:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && rails server -b 0.0.0.0"
+    restart: unless-stopped
     volumes:
       - .:/app
     ports:
       - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/url_shortener_development
+      REDIS_URL: redis://redis:6379/0
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    restart: unless-stopped
+    volumes:
+      - .:/app
     depends_on:
       - db
       - redis
