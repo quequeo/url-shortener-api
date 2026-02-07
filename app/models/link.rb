@@ -8,4 +8,7 @@ class Link < ApplicationRecord
   }
   validates :short_code, presence: true, uniqueness: true
   validates :click_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
+  paginates_per 25
+  max_paginates_per 100
 end

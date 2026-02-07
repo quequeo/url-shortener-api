@@ -7,7 +7,11 @@ module Api
       LINK_FIELDS = %i[id original_url short_code click_count created_at].freeze
 
       def index
-        render json: current_user.links.order(created_at: :desc).as_json(only: LINK_FIELDS)
+        links = current_user.links.order(created_at: :desc).page(params[:page]).per(page_size)
+
+        paginate_headers(links)
+
+        render json: links.as_json(only: LINK_FIELDS)
       end
 
       def show
@@ -32,6 +36,10 @@ module Api
 
       def url_param
         params.require(:url)
+      end
+
+      def page_size
+        params[:per_page] || Link.default_per_page
       end
     end
   end

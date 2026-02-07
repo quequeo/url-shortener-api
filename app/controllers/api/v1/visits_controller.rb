@@ -4,10 +4,10 @@ module Api
       before_action :authenticate_user!
       before_action :set_link
 
-      MAX_VISITS = 100
-
       def index
-        visits = @link.visits.order(created_at: :desc).limit(MAX_VISITS)
+        visits = @link.visits.order(created_at: :desc).page(params[:page]).per(page_size)
+
+        paginate_headers(visits)
         render json: visits.as_json(only: %i[id ip_address user_agent created_at])
       end
 
@@ -15,6 +15,10 @@ module Api
 
       def set_link
         @link = current_user.links.find(params[:link_id])
+      end
+
+      def page_size
+        params[:per_page] || Visit.default_per_page
       end
     end
   end
