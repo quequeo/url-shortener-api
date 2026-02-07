@@ -39,7 +39,10 @@ module Api
       end
 
       def page_size
-        params[:per_page] || Link.default_per_page
+        value = params[:per_page].to_i
+        return value if value.positive?
+
+        Link.default_per_page
       end
     end
   end

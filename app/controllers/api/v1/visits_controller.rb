@@ -18,7 +18,10 @@ module Api
       end
 
       def page_size
-        params[:per_page] || Visit.default_per_page
+        value = params[:per_page].to_i
+        return value if value.positive?
+
+        Visit.default_per_page
       end
     end
   end
