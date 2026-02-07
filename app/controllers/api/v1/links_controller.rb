@@ -15,7 +15,10 @@ module Api
       end
 
       def show
-        render json: @link.as_json(only: LINK_FIELDS)
+        render json: @link.as_json(only: LINK_FIELDS).merge(
+          unique_visitors: @link.visits.distinct.count(:ip_address),
+          total_visitors: @link.visits.count
+        )
       end
 
       def create
