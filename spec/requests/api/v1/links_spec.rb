@@ -81,6 +81,38 @@ RSpec.describe 'Api::V1::Links', type: :request do
     end
   end
 
+  describe 'PATCH /api/v1/links/:id' do
+    it 'updates own link with valid URL' do
+      sign_in user
+      link = create(:link, user: user)
+
+      patch api_v1_link_path(link), params: { original_url: 'https://github.com' }
+
+      expect(response).to have_http_status(:ok)
+      json = response.parsed_body
+      expect(json['original_url']).to eq('https://github.com')
+      expect(json['short_code']).to eq(link.short_code)
+    end
+
+    it 'returns error for invalid URL' do
+      sign_in user
+      link = create(:link, user: user)
+
+      patch api_v1_link_path(link), params: { original_url: 'not-a-url' }
+
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+
+    it 'returns 404 for other user link' do
+      sign_in user
+      link = create(:link, user: other_user)
+
+      patch api_v1_link_path(link), params: { original_url: 'https://github.com' }
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   describe 'DELETE /api/v1/links/:id' do
     it 'deletes own link' do
       sign_in user
