@@ -22,6 +22,12 @@ class ApplicationController < ActionController::API
     @current_user ||= user_from_api_key || user_from_session
   end
 
+  def paginate_headers(scope)
+    response.headers['X-Total-Count'] = scope.total_count.to_s
+    response.headers['X-Total-Pages'] = scope.total_pages.to_s
+    response.headers['X-Current-Page'] = scope.current_page.to_s
+  end
+
   private
 
   def user_from_api_key
