@@ -2,7 +2,7 @@ module Api
   module V1
     class LinksController < ApplicationController
       before_action :authenticate_user!
-      before_action :set_link, only: %i[show destroy]
+      before_action :set_link, only: %i[show update destroy]
 
       LINK_FIELDS = %i[id original_url short_code click_count created_at].freeze
 
@@ -21,6 +21,11 @@ module Api
       def create
         link = LinkShortenerService.new(current_user).shorten(url_param)
         render json: link.as_json(only: LINK_FIELDS), status: :created
+      end
+
+      def update
+        @link.update!(original_url: params.require(:original_url))
+        render json: @link.as_json(only: LINK_FIELDS)
       end
 
       def destroy
