@@ -14,7 +14,7 @@ module Users
       }, status: :ok
     end
 
-    def respond_to_on_destroy
+    def respond_to_on_destroy(*)
       head :no_content
     end
   end
