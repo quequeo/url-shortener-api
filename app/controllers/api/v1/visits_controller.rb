@@ -19,8 +19,9 @@ module Api
 
       def page_size
         value = params[:per_page].to_i
-        value = Visit.per_page / 4 if value <= 0
-        [value, Visit.per_page].min
+        return value if value.positive?
+
+        Visit.default_per_page
       end
     end
   end

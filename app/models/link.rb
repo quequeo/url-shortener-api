@@ -9,9 +9,6 @@ class Link < ApplicationRecord
   validates :short_code, presence: true, uniqueness: true
   validates :click_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  MAX_LINKS_PER_PAGE = 100
-
-  def self.per_page
-    MAX_LINKS_PER_PAGE
-  end
+  paginates_per 25
+  max_paginates_per 100
 end

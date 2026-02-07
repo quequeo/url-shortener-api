@@ -40,8 +40,9 @@ module Api
 
       def page_size
         value = params[:per_page].to_i
-        value = Link.per_page / 4 if value <= 0
-        [value, Link.per_page].min
+        return value if value.positive?
+
+        Link.default_per_page
       end
     end
   end
