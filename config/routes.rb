@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      resource :profile, only: %i[show], controller: 'profile'
       resources :links, only: %i[index create show destroy] do
         resources :visits, only: %i[index]
       end

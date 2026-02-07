@@ -19,4 +19,12 @@ RSpec.describe User, type: :model do
       expect(user2.errors[:email]).to include('has already been taken')
     end
   end
+
+  describe 'api_key' do
+    it 'generates api_key on create' do
+      user = create(:user)
+      expect(user.api_key).to be_present
+      expect(user.api_key.length).to eq(40)
+    end
+  end
 end

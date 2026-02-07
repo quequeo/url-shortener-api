@@ -1,0 +1,234 @@
+{
+  "info": {
+    "name": "URL Shortener API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "api_key",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user\": {\n    \"name\": \"User Demo\",\n    \"email\": \"demo@challenge.com\",\n    \"password\": \"pwd123\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": ["{{base_url}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user\": {\n    \"email\": \"demo@challenge.com\",\n    \"password\": \"pwd123\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/sign_in",
+              "host": ["{{base_url}}"],
+              "path": ["users", "sign_in"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/sign_out",
+              "host": ["{{base_url}}"],
+              "path": ["users", "sign_out"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "Get Profile (session)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Get Profile (API Key)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "X-API-Key", "value": "{{api_key}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "profile"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Links",
+      "item": [
+        {
+          "name": "List Links (session)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/links",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "links"]
+            }
+          }
+        },
+        {
+          "name": "List Links (API Key)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "X-API-Key", "value": "{{api_key}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/links",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "links"]
+            }
+          }
+        },
+        {
+          "name": "Create Link (session)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://github.com/quequeo/url-shortener-api\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/links",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "links"]
+            }
+          }
+        },
+        {
+          "name": "Create Link (API Key)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-API-Key", "value": "{{api_key}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://github.com/quequeo/url-shortener-api\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/links",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "links"]
+            }
+          }
+        },
+        {
+          "name": "Show Link",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "X-API-Key", "value": "{{api_key}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/links/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "links", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Link",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "X-API-Key", "value": "{{api_key}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/links/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "links", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Visits",
+      "item": [
+        {
+          "name": "List Visits for Link",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "X-API-Key", "value": "{{api_key}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/links/1/visits",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "links", "1", "visits"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Redirect",
+      "item": [
+        {
+          "name": "Short URL Redirect (302)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/q4n",
+              "host": ["{{base_url}}"],
+              "path": ["q4n"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

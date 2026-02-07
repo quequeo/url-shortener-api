@@ -4,21 +4,21 @@ Visit.destroy_all
 
 user1 = User.create!(
   name: 'Demo User',
-  email: 'demo@example.com',
-  password: 'password123'
+  email: 'demo@challenge.com',
+  password: 'pwd123'
 )
 
 user2 = User.create!(
   name: 'Test User',
-  email: 'test@example.com',
-  password: 'password123'
+  email: 'test@challenge.com',
+  password: 'pwd123'
 )
 
 links = [
-  { url: 'https://github.com', user: user1 },
+  { url: 'https://github.com/quequeo/url-shortener-api', user: user1 },
   { url: 'https://google.com', user: user1 },
   { url: 'https://linkedin.com/in/johndoe', user: user1 },
-  { url: 'https://infobae.com', user: user1 },
+  { url: 'https://www.youtube.com/watch?v=xAR6N9N8e6U&list=RDxAR6N9N8e6U&start_radio=1&t=1049s', user: user1 },
   { url: 'https://tycsports.com', user: user2 },
   { url: 'https://rails.org', user: user2 },
   { url: 'https://youtube.com/watch?v=dQw4w9WgXcQ', user: user2 }
