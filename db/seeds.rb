@@ -25,8 +25,7 @@ links = [
 ]
 
 links.each do |link_data|
-  service = LinkShortenerService.new(link_data[:user])
-  link = service.shorten(link_data[:url])
+  link = link_data[:user].links.create!(original_url: link_data[:url])
 
   rand(5..15).times do
     Visit.create!(

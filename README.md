@@ -22,15 +22,15 @@ API runs on `http://localhost:3000`
 ## Architecture
 
 **Short code generation:**
-- Sequential Base62 encoding from Redis counter
-- Format: 1-6 chars, grows with usage (e.g., `q0U` at 100k, `4c92` at 1M)
-- Max capacity: 62^6 = 56B URLs
-- Fallback: 8 random chars if Redis fails
+- Redis counter + multiplicative scramble (modular arithmetic)
+- Fixed 6-char Base62 codes (`scrambled = counter × prime % 62^6`)
+- Capacity: 56B unique URLs
+- Fallback: 6 random chars if Redis fails
 
 **Why this approach:**
-- Zero collisions (counter-based)
-- Predictable growth (3-4 chars for first million)
-- Simple and fast
+- Zero collisions (bijective function over the code space)
+- Non-sequential output (codes look random, not enumerable)
+- Fixed length (always 6 chars)
 - Scalable with Redis sharding
 
 **Visit tracking:**
@@ -42,7 +42,6 @@ API runs on `http://localhost:3000`
 - 302 redirect (not 301) for trackable analytics
 - URL validation in model (single source of truth)
 - No retry logic (MVP scope)
-- Sequential codes acceptable for this scale
 
 ## Tests
 

@@ -12,10 +12,9 @@ RSpec.describe Link, type: :model do
       expect(link.errors[:original_url]).to include("can't be blank")
     end
 
-    it 'requires short_code' do
-      link = build(:link, short_code: nil)
-      expect(link).not_to be_valid
-      expect(link.errors[:short_code]).to include("can't be blank")
+    it 'generates short_code before create' do
+      link = create(:link, short_code: nil)
+      expect(link.short_code).to be_present
     end
 
     it 'requires unique short_code' do
