@@ -11,6 +11,10 @@
     {
       "key": "api_key",
       "value": ""
+    },
+    {
+      "key": "short_code",
+      "value": ""
     }
   ],
   "item": [
@@ -136,7 +140,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"url\": \"https://github.com/quequeo/url-shortener-api\"\n}"
+              "raw": "{\n  \"original_url\": \"https://github.com/quequeo/url-shortener-api\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/v1/links",
@@ -155,7 +159,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"url\": \"https://github.com/quequeo/url-shortener-api\"\n}"
+              "raw": "{\n  \"original_url\": \"https://github.com/quequeo/url-shortener-api\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/v1/links",
@@ -171,6 +175,25 @@
             "header": [
               { "key": "X-API-Key", "value": "{{api_key}}" }
             ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/links/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "links", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Link",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-API-Key", "value": "{{api_key}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"original_url\": \"https://github.com\"\n}"
+            },
             "url": {
               "raw": "{{base_url}}/api/v1/links/1",
               "host": ["{{base_url}}"],
@@ -222,9 +245,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/q4n",
+              "raw": "{{base_url}}/{{short_code}}",
               "host": ["{{base_url}}"],
-              "path": ["q4n"]
+              "path": ["{{short_code}}"]
             }
           }
         }

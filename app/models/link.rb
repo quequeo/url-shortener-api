@@ -6,9 +6,22 @@ class Link < ApplicationRecord
     with: /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/,
     message: 'must be a valid HTTP or HTTPS URL'
   }
-  validates :short_code, presence: true, uniqueness: true
+  validates :short_code, uniqueness: true
   validates :click_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
+  before_create :assign_short_code
 
   paginates_per 25
   max_paginates_per 100
+
+  def assign_short_code
+    self.short_code ||= ShortCodeGenerator.call
+  end
+
+  def visitor_stats
+    {
+      unique_visitors: visits.distinct.count(:ip_address),
+      total_visitors: visits.count
+    }
+  end
 end

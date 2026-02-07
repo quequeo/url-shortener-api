@@ -15,19 +15,16 @@ module Api
       end
 
       def show
-        render json: @link.as_json(only: LINK_FIELDS).merge(
-          unique_visitors: @link.visits.distinct.count(:ip_address),
-          total_visitors: @link.visits.count
-        )
+        render json: @link.as_json(only: LINK_FIELDS).merge(@link.visitor_stats)
       end
 
       def create
-        link = LinkShortenerService.new(current_user).shorten(url_param)
+        link = current_user.links.create!(original_url: url_param)
         render json: link.as_json(only: LINK_FIELDS), status: :created
       end
 
       def update
-        @link.update!(original_url: params.require(:original_url))
+        @link.update!(original_url: url_param)
         render json: @link.as_json(only: LINK_FIELDS)
       end
 
@@ -43,7 +40,7 @@ module Api
       end
 
       def url_param
-        params.require(:url)
+        params.require(:original_url)
       end
 
       def page_size

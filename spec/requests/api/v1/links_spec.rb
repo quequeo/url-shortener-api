@@ -29,19 +29,18 @@ RSpec.describe 'Api::V1::Links', type: :request do
     it 'creates a link with valid URL' do
       sign_in user
 
-      post api_v1_links_path, params: { url: 'https://google.com' }
+      post api_v1_links_path, params: { original_url: 'https://google.com' }
 
       expect(response).to have_http_status(:created)
       json = response.parsed_body
       expect(json['original_url']).to eq('https://google.com')
-      expect(json['short_code']).to match(/\A[0-9a-zA-Z]+\z/)
-      expect(json['short_code'].length).to be >= 3
+      expect(json['short_code']).to match(/\A[0-9a-zA-Z]{6}\z/)
     end
 
     it 'returns error for invalid URL' do
       sign_in user
 
-      post api_v1_links_path, params: { url: 'not-a-url' }
+      post api_v1_links_path, params: { original_url: 'not-a-url' }
 
       expect(response).to have_http_status(:unprocessable_content)
       json = response.parsed_body
@@ -55,7 +54,7 @@ RSpec.describe 'Api::V1::Links', type: :request do
 
       expect(response).to have_http_status(:bad_request)
       json = response.parsed_body
-      expect(json['error']).to include('url')
+      expect(json['error']).to include('original_url')
     end
   end
 
