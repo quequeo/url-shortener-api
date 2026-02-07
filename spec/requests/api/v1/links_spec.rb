@@ -60,15 +60,20 @@ RSpec.describe 'Api::V1::Links', type: :request do
   end
 
   describe 'GET /api/v1/links/:id' do
-    it 'returns own link' do
+    it 'returns own link with visitor stats' do
       sign_in user
       link = create(:link, user: user)
+      create(:visit, link: link, ip_address: '1.1.1.1')
+      create(:visit, link: link, ip_address: '1.1.1.1')
+      create(:visit, link: link, ip_address: '2.2.2.2')
 
       get api_v1_link_path(link)
 
       expect(response).to have_http_status(:ok)
       json = response.parsed_body
       expect(json['id']).to eq(link.id)
+      expect(json['unique_visitors']).to eq(2)
+      expect(json['total_visitors']).to eq(3)
     end
 
     it 'returns 404 for other user link' do
