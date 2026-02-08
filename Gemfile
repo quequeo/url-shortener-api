@@ -4,6 +4,7 @@ ruby '3.3.10'
 gem 'blueprinter'
 gem 'bootsnap', require: false
 gem 'devise'
+gem 'faker'
 gem 'kaminari'
 gem 'pg', '~> 1.1'
 gem 'puma', '>= 5.0'

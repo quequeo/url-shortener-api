@@ -42,6 +42,9 @@ module App
     config.api_only = true
 
     config.middleware.use ActionDispatch::Cookies
-    config.middleware.use ActionDispatch::Session::CookieStore, key: '_url_shortener_session'
+    config.middleware.use ActionDispatch::Session::CookieStore,
+                          key: '_url_shortener_session',
+                          same_site: :none,
+                          secure: true
   end
 end
