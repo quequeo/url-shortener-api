@@ -15,7 +15,10 @@ module Api
       end
 
       def show
-        render json: @link.as_json(only: LINK_FIELDS).merge(@link.visitor_stats)
+        render json: @link.as_json(only: LINK_FIELDS).merge(
+          @link.visitor_stats,
+          devices: @link.device_stats
+        )
       end
 
       def create
