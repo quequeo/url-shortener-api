@@ -37,4 +37,28 @@ RSpec.describe Link, type: :model do
       expect(link.user).to be_present
     end
   end
+
+  describe '#device_stats' do
+    it 'groups visits by browser with percentages' do
+      link = create(:link)
+      create(:visit, link: link, user_agent: 'Mozilla/5.0 Chrome/120.0')
+      create(:visit, link: link, user_agent: 'Mozilla/5.0 Chrome/121.0')
+      create(:visit, link: link, user_agent: 'Mozilla/5.0 Firefox/119.0')
+
+      stats = link.device_stats
+
+      chrome = stats.find { |d| d[:browser] == 'Chrome' }
+      firefox = stats.find { |d| d[:browser] == 'Firefox' }
+      expect(chrome[:count]).to eq(2)
+      expect(chrome[:percentage]).to eq(66.7)
+      expect(firefox[:count]).to eq(1)
+      expect(firefox[:percentage]).to eq(33.3)
+    end
+
+    it 'returns empty array with no visits' do
+      link = create(:link)
+
+      expect(link.device_stats).to eq([])
+    end
+  end
 end
