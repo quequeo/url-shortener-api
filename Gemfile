@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '3.3.10'
 
+gem 'blueprinter'
 gem 'bootsnap', require: false
 gem 'devise'
 gem 'kaminari'

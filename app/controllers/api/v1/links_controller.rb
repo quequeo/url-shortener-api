@@ -4,14 +4,14 @@ module Api
       before_action :authenticate_user!
       before_action :set_link, only: %i[show update destroy]
 
-      LINK_FIELDS = %i[id original_url short_code click_count created_at].freeze
-
       def index
-        links = current_user.links.order(created_at: :desc).page(params[:page]).per(page_size)
+        links = current_user.links
+                            .recent
+                            .page(params[:page])
+                            .per(page_size(Link.default_per_page))
 
         paginate_headers(links)
-
-        render json: links.as_json(only: LINK_FIELDS)
+        render json: LinkSerializer.render(links)
       end
 
       def show
@@ -20,12 +20,12 @@ module Api
 
       def create
         link = current_user.links.create!(original_url: url_param)
-        render json: link.as_json(only: LINK_FIELDS), status: :created
+        render json: LinkSerializer.render(link), status: :created
       end
 
       def update
         @link.update!(original_url: url_param)
-        render json: @link.as_json(only: LINK_FIELDS)
+        render json: LinkSerializer.render(@link)
       end
 
       def destroy
@@ -41,13 +41,6 @@ module Api
 
       def url_param
         params.require(:original_url)
-      end
-
-      def page_size
-        value = params[:per_page].to_i
-        return value if value.positive?
-
-        Link.default_per_page
       end
     end
   end

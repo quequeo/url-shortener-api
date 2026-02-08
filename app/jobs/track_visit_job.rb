@@ -1,5 +1,6 @@
 class TrackVisitJob < ApplicationJob
   queue_as :default
+  discard_on ActiveRecord::RecordNotFound
 
   def perform(link_id, ip_address, user_agent)
     Visit.create!(

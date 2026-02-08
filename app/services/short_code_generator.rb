@@ -4,6 +4,7 @@ class ShortCodeGenerator
   CODE_LENGTH = 6
   SPACE = 62**CODE_LENGTH
   SCRAMBLE_PRIME = 54_059
+  MAX_RETRIES = 10
 
   class << self
     def call
@@ -32,7 +33,7 @@ class ShortCodeGenerator
     end
 
     def generate_fallback_code
-      10.times do
+      MAX_RETRIES.times do
         code = SecureRandom.alphanumeric(CODE_LENGTH)
         return code unless Link.exists?(short_code: code)
       end

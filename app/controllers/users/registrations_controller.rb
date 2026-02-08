@@ -7,11 +7,9 @@ module Users
     def respond_with(resource, _opts = {}) # rubocop:disable Metrics/MethodLength
       if resource.persisted?
         render json: {
-          user: {
-            id: resource.id,
-            email: resource.email,
-            name: resource.name
-          }
+          id: resource.id,
+          email: resource.email,
+          name: resource.name
         }, status: :created
       else
         render json: {

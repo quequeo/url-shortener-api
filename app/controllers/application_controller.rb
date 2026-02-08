@@ -28,6 +28,13 @@ class ApplicationController < ActionController::API
     response.headers['X-Current-Page'] = scope.current_page.to_s
   end
 
+  def page_size(default)
+    value = params[:per_page].to_i
+    return value if value.positive?
+
+    default
+  end
+
   private
 
   def user_from_api_key
