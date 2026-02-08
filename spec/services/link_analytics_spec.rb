@@ -18,19 +18,19 @@ RSpec.describe LinkAnalytics do
       expect(result[:total_visitors]).to eq(3)
     end
 
-    it 'groups devices by browser with percentages' do
-      create(:visit, link: link, user_agent: 'Mozilla/5.0 Chrome/120.0')
-      create(:visit, link: link, user_agent: 'Mozilla/5.0 Chrome/121.0')
-      create(:visit, link: link, user_agent: 'Mozilla/5.0 Firefox/119.0')
+    it 'groups devices by OS with percentages' do
+      create(:visit, link: link, user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)')
+      create(:visit, link: link, user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)')
+      create(:visit, link: link, user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)')
 
       devices = described_class.new(link).summary[:devices]
 
-      chrome = devices.find { |d| d[:browser] == 'Chrome' }
-      firefox = devices.find { |d| d[:browser] == 'Firefox' }
-      expect(chrome[:count]).to eq(2)
-      expect(chrome[:percentage]).to eq(66.7)
-      expect(firefox[:count]).to eq(1)
-      expect(firefox[:percentage]).to eq(33.3)
+      windows = devices.find { |d| d[:os] == 'Windows' }
+      macos = devices.find { |d| d[:os] == 'macOS' }
+      expect(windows[:count]).to eq(2)
+      expect(windows[:percentage]).to eq(66.7)
+      expect(macos[:count]).to eq(1)
+      expect(macos[:percentage]).to eq(33.3)
     end
 
     it 'returns empty devices with no visits' do

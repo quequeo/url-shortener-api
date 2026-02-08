@@ -19,27 +19,27 @@ class LinkAnalytics
     return [] if @total.zero?
 
     @visits.pluck(:user_agent)
-           .map { |ua| detect_browser(ua) }
+           .map { |ua| detect_os(ua) }
            .tally
-           .map { |browser, count| build_device(browser, count) }
+           .map { |os, count| build_device(os, count) }
            .sort_by { |d| -d[:count] }
   end
 
-  def build_device(browser, count)
-    { browser: browser, count: count, percentage: percentage(count) }
+  def build_device(os, count)
+    { os: os, count: count, percentage: percentage(count) }
   end
 
   def percentage(count)
     (count * 100.0 / @total).round(1)
   end
 
-  def detect_browser(user_agent)
+  def detect_os(user_agent)
     case user_agent
-    when /Edg/i       then 'Edge'
-    when /Chrome/i    then 'Chrome'
-    when /Firefox/i   then 'Firefox'
-    when /Safari/i    then 'Safari'
-    when /Opera|OPR/i then 'Opera'
+    when /iPhone|iPad|iPod/i then 'iOS'
+    when /Android/i          then 'Android'
+    when /Windows/i          then 'Windows'
+    when /Macintosh|Mac OS/i then 'macOS'
+    when /Linux/i            then 'Linux'
     else 'Other'
     end
   end
