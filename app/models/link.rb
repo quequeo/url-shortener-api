@@ -11,6 +11,7 @@ class Link < ApplicationRecord
   validates :click_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   scope :recent, -> { order(created_at: :desc) }
+  scope :most_clicked, ->(limit = 100) { order(click_count: :desc).limit(limit) }
 
   before_create :assign_short_code
 
