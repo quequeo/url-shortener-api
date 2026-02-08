@@ -7,7 +7,10 @@ class Link < ApplicationRecord
     message: 'must be a valid HTTP or HTTPS URL'
   }
   validates :short_code, uniqueness: true
+
   validates :click_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
+  scope :recent, -> { order(created_at: :desc) }
 
   before_create :assign_short_code
 

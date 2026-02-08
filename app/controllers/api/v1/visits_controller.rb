@@ -5,23 +5,19 @@ module Api
       before_action :set_link
 
       def index
-        visits = @link.visits.order(created_at: :desc).page(params[:page]).per(page_size)
+        visits = @link.visits
+                      .recent
+                      .page(params[:page])
+                      .per(page_size(Visit.default_per_page))
 
         paginate_headers(visits)
-        render json: visits.as_json(only: %i[id ip_address user_agent created_at])
+        render json: VisitSerializer.render(visits)
       end
 
       private
 
       def set_link
         @link = current_user.links.find(params[:link_id])
-      end
-
-      def page_size
-        value = params[:per_page].to_i
-        return value if value.positive?
-
-        Visit.default_per_page
       end
     end
   end

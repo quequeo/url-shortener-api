@@ -6,16 +6,11 @@ class LinkAnalytics
   end
 
   def summary
-    {
-      id: @link.id,
-      original_url: @link.original_url,
-      short_code: @link.short_code,
-      click_count: @link.click_count,
-      created_at: @link.created_at,
+    LinkSerializer.render_as_hash(@link).merge(
       unique_visitors: @visits.distinct.count(:ip_address),
       total_visitors: @total,
       devices: devices
-    }
+    )
   end
 
   private

@@ -6,11 +6,9 @@ module Users
 
     def respond_with(resource, _opts = {})
       render json: {
-        user: {
-          id: resource.id,
-          email: resource.email,
-          name: resource.name
-        }
+        id: resource.id,
+        email: resource.email,
+        name: resource.name
       }, status: :ok
     end
 
