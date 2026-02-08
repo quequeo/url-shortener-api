@@ -5,12 +5,7 @@ module Api
       before_action :set_link, only: %i[show update destroy]
 
       def index
-        links = current_user.links
-                            .recent
-                            .page(params[:page])
-                            .per(page_size(Link.default_per_page))
-
-        paginate_headers(links)
+        links = paginate(current_user.links.recent)
         render json: LinkSerializer.render(links)
       end
 
