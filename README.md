@@ -19,6 +19,11 @@ docker-compose up
 
 API runs on `http://localhost:3000`
 
+## Live Demo
+
+- **Frontend:** https://url-shortener-front-m5wf.onrender.com
+- **API:** https://url-shortener-api-g96z.onrender.com
+
 ## Architecture
 
 **Short code generation:**
