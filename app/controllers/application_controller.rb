@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::API
   include ActionController::Cookies
   include Errorable
+  include Paginable
 
   respond_to :json
 
@@ -20,19 +21,6 @@ class ApplicationController < ActionController::API
 
   def current_user
     @current_user ||= user_from_api_key || user_from_session
-  end
-
-  def paginate_headers(scope)
-    response.headers['X-Total-Count'] = scope.total_count.to_s
-    response.headers['X-Total-Pages'] = scope.total_pages.to_s
-    response.headers['X-Current-Page'] = scope.current_page.to_s
-  end
-
-  def page_size(default)
-    value = params[:per_page].to_i
-    return value if value.positive?
-
-    default
   end
 
   private

@@ -5,12 +5,7 @@ module Api
       before_action :set_link
 
       def index
-        visits = @link.visits
-                      .recent
-                      .page(params[:page])
-                      .per(page_size(Visit.default_per_page))
-
-        paginate_headers(visits)
+        visits = paginate(@link.visits.recent)
         render json: VisitSerializer.render(visits)
       end
 
